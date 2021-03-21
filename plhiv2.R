@@ -117,6 +117,19 @@ data_labeler <- function(final_start, final_end, base_start,base_end){
 }
 
 dataA_01 <-data_labeler(final_start=1, final_end=135, base_start=1,base_end=135)
-  
+
+#Creating additional 7 variables
+dataA_01$Q40_1 <- 0
+dataA_01$Q40_2 <- 0
+dataA_01$Q40_3 <- 0
+dataA_01$Q40_4 <- 0
+dataA_01$Q40_5 <- 0
+dataA_01$Q40_6 <- 0
+dataA_01$Q40_7 <- 0
+
+# Part B of data pulling 
+
+dataA_02 <-data_labeler(final_start=136, final_end=235, base_start=143,base_end=242)
+
 
 
