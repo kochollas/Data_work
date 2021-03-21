@@ -151,7 +151,7 @@ final_survey_data <- cbind(dataA_01,dataA_02,dataA_03,dataA_04,dataA_05)
 print(ncol(final_survey_data))
 
 
-# Working on levels for counties
+# Working on levels for counties 47
 
 
 
