@@ -48,8 +48,8 @@ colnames(interviewer_ids) <- c("Interviewer_ID", "Completed Interviews")
 write.csv(interviewer_ids, "interviewer performance.csv")
 
 
-
-
+#-----------------------------------------------------------------------------------
+#START DATA LABELING AND PROCESSING HERE
 # Data Processing in prep for analysis
 library(dplyr)
 setwd("~/Documents/upwork/Georges")
@@ -145,4 +145,25 @@ dataA_04$referal_followup_3.2 <-0
 dataA_04$referal_followup_3.3 <-0
 
 dataA_05 <-data_labeler(final_start=307, final_end=310, base_start=321,base_end=324)
+
+# To column bind the data to have final data
+final_survey_data <- cbind(dataA_01,dataA_02,dataA_03,dataA_04,dataA_05)
+print(ncol(final_survey_data))
+
+
+# Working on levels for counties
+
+
+
+# Change venue_code to networks
+
+
+
+# Splitting multiple response columns
+
+
+# Add variable labels
+
+
+
 
