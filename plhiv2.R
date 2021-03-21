@@ -73,13 +73,13 @@ base_data <- base_data1
 data_today3 <- data_today2[,c(1:320)]
 columns_to_dropA = c("SubmissionDate","metadata_note_introduction","note1","Main.secG.note_secG",
                     "Main.secG.Q_62_group.noteq62","Main.secG.Q_65_group.noteq65","Main.secG.Q_70_group.noteq70",
-                    "Main.secG.Q_75_group.noteq75","Main.secH.subsecH.note_subsecH")
+                    "Main.secG.Q_75_group.noteq75","Main.secH.subsecH.note_subsecH", "Main.note12"  )
 
 
 
 final_data1 <- data_today3%>%select(-columns_to_dropA)
 print(ncol(data_today3) - ncol(final_data1))
-print(length(columns_to_drop))
+print(length(columns_to_dropA))
 
 # WORKING ON A FUNCTION TO HANDLE RENAMING
 
@@ -131,7 +131,18 @@ dataA_01$Q40_7 <- 0
 
 dataA_02 <-data_labeler(final_start=136, final_end=235, base_start=143,base_end=242) #Q60
 
+dataA_03 <-data_labeler(final_start=236, final_end=304, base_start=243,base_end=311) #Q60
 
+dataA_03$referal_2_1 <- 0
+dataA_03$referal_2_2 <- 0
+dataA_03$referal_2_3 <- 0
+dataA_03$referal_2_4 <- 0
 
+dataA_04 <-data_labeler(final_start=305, final_end=306, base_start=316,base_end=317)
 
+dataA_04$referal_followup_3.1 <-0
+dataA_04$referal_followup_3.2 <-0
+dataA_04$referal_followup_3.3 <-0
+
+dataA_05 <-data_labeler(final_start=307, final_end=310, base_start=321,base_end=324)
 
