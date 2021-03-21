@@ -73,7 +73,7 @@ base_data <- base_data1
 data_today3 <- data_today2[,c(1:320)]
 columns_to_dropA = c("SubmissionDate","metadata_note_introduction","note1","Main.secG.note_secG",
                     "Main.secG.Q_62_group.noteq62","Main.secG.Q_65_group.noteq65","Main.secG.Q_70_group.noteq70",
-                    "Main.secG.Q_75_group.noteq75")
+                    "Main.secG.Q_75_group.noteq75","Main.secH.subsecH.note_subsecH")
 
 
 
@@ -129,7 +129,9 @@ dataA_01$Q40_7 <- 0
 
 # Part B of data pulling 
 
-dataA_02 <-data_labeler(final_start=136, final_end=235, base_start=143,base_end=242)
+dataA_02 <-data_labeler(final_start=136, final_end=235, base_start=143,base_end=242) #Q60
+
+
 
 
 
