@@ -105,30 +105,37 @@ levels(final_data1$consent_given)<-levels(base_data$consent_given)
 table(final_data1$consent_given)
 
 # Testing appending data 
-
-dataA = final_data1[,c(1:10)]
-dataB = base_data[,c(1:10)]
-colnames(dataA)<-colnames(dataB)
-
-i=2
-
-if(class(dataA[,i])==class(dataB[,i])){
-  print("good")
-}else{
-if(class(dataB[,i])=="character"){
-  print("RESET to Character")
-}else if(class(dataB[,i])=="integer"){
-  print("RESET to integer")
-}else if(class(dataB[,i])=="numeric"){
-  print("RESET to numeric")
-}else if(class(dataB[,i])=="factor"){
-  class(dataA[,i])<-class(dataB[,i])
-  levels(dataA[,i]) <- levels(dataB[,i])
-}else{
-print("No changes")
-}
+data_labeler <- function(final_start, final_end, base_start,base_end){
+  dataA = final_data1[,c(final_start:final_end)]
+  dataB = base_data[,c(base_start:base_end)]
+  colnames(dataA)<-colnames(dataB)
   
+  i=1
+  N = ncol(dataA)
+  for (i in 1:N) {
+    if(class(dataA[,i])==class(dataB[,i])){
+      print("good")
+    }else{
+      if(class(dataB[,i])=="character"){
+        print("RESET to Character")
+      }else if(class(dataB[,i])=="integer"){
+        print("RESET to integer")
+      }else if(class(dataB[,i])=="numeric"){
+        print("RESET to numeric")
+      }else if(class(dataB[,i])=="factor"){
+        class(dataA[,i])<-class(dataB[,i])
+        levels(dataA[,i]) <- levels(dataB[,i])
+      }else{
+        print("No changes")
+      }
+      
+    }
+    
+  }
+  return(dataA)
 }
 
+dataA_01 <-data_labeler(final_start=1, final_end=20, base_start=1,base_end=20)
+  
 
 
