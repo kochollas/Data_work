@@ -43,68 +43,46 @@ View(data)
 
 #Finding time in minutes to complete the survey on average.
 mean((data$end-data$start)/60)
-
-
-
-
-
-# People to payed by ids
-library(dplyr)
-setwd("~/Documents/upwork/Georges")
-data_today = read.csv("smart_survey_final_6.csv")
-data_today2 = data_today %>% filter(today2 >= '2021-03-08')
 interviewer_ids = data.frame(table(data_today2$Main.secA.interviewer_id))
 colnames(interviewer_ids) <- c("Interviewer_ID", "Completed Interviews")
 write.csv(interviewer_ids, "interviewer performance.csv")
 
 
+
+
+# Data Processing in prep for analysis
+library(dplyr)
+setwd("~/Documents/upwork/Georges")
+data_today = read.csv("smart_survey_final_6.csv")
+data_today2 = data_today %>% filter(today2 >= '2021-03-08')
+
+
+
 # Read spss data
 library(foreign)
 library(spss)
-base_data <- read.spss("data/data.sav", use.value.labels = T, to.data.frame = T)
+base_data1 <- read.spss("data/data.sav", use.value.labels = T, to.data.frame = T)
+#columns_to_dropB = c()
+#base_data <- base_data1%>%select(-columns_to_dropB)
+base_data <- base_data1
 
 # Processing data in readiness for merging
 #base_data1 <- base_data[,c(1:324)]
 
 # Drop on the final dataset
 data_today3 <- data_today2[,c(1:320)]
-columns_to_drop = c("SubmissionDate","metadata_note_introduction","note1","Main.secG.note_secG",
+columns_to_dropA = c("SubmissionDate","metadata_note_introduction","note1","Main.secG.note_secG",
                     "Main.secG.Q_62_group.noteq62","Main.secG.Q_65_group.noteq65","Main.secG.Q_70_group.noteq70",
                     "Main.secG.Q_75_group.noteq75")
 
 
 
-final_data1 <- data_today3%>%select(-columns_to_drop)
+final_data1 <- data_today3%>%select(-columns_to_dropA)
 print(ncol(data_today3) - ncol(final_data1))
 print(length(columns_to_drop))
 
 # WORKING ON A FUNCTION TO HANDLE RENAMING
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#Startint to rename the columns
-colnames(final_data1)[1:10]<-colnames(base_data)[1:10]
-attr(final_data1,"variable.label")[1:10] <- attr(base_data,"variable.label")[1:10]
-
-factor(final_data1$consent_given)
-levels(final_data1$consent_given)<-levels(base_data$consent_given)
-
-table(final_data1$consent_given)
-
-# Testing appending data 
 data_labeler <- function(final_start, final_end, base_start,base_end){
   dataA = final_data1[,c(final_start:final_end)]
   dataB = base_data[,c(base_start:base_end)]
@@ -113,18 +91,20 @@ data_labeler <- function(final_start, final_end, base_start,base_end){
   i=1
   N = ncol(dataA)
   for (i in 1:N) {
-    if(class(dataA[,i])==class(dataB[,i])){
+    if(class(dataA[,c(i)])==class(dataB[,c(i)])){
       print("good")
     }else{
-      if(class(dataB[,i])=="character"){
+      if(class(dataB[,c(i)])=="character"){
         print("RESET to Character")
-      }else if(class(dataB[,i])=="integer"){
+      }else if(class(dataB[,c(i)])=="integer"){
         print("RESET to integer")
-      }else if(class(dataB[,i])=="numeric"){
+      }else if(class(dataB[,c(i)])=="numeric"){
         print("RESET to numeric")
-      }else if(class(dataB[,i])=="factor"){
-        class(dataA[,i])<-class(dataB[,i])
-        levels(dataA[,i]) <- levels(dataB[,i])
+      }else if(class(dataB[,c(i)])=="factor"){
+        print(i)
+        class(dataA[,c(i)])<-factor(dataB[,c(i)])
+        levels(dataA[,c(i)]) <- levels(dataB[,c(i)])
+        
       }else{
         print("No changes")
       }
@@ -135,7 +115,7 @@ data_labeler <- function(final_start, final_end, base_start,base_end){
   return(dataA)
 }
 
-dataA_01 <-data_labeler(final_start=1, final_end=20, base_start=1,base_end=20)
+dataA_01 <-data_labeler(final_start=1, final_end=100, base_start=1,base_end=100)
   
 
 
