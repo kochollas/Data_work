@@ -64,7 +64,7 @@ library(spss)
 base_data <- read.spss("data/data.sav", use.value.labels = T, to.data.frame = T)
 
 # Processing data in readiness for merging
-base_data1 <- base_data[,c(1:324)]
+#base_data1 <- base_data[,c(1:324)]
 
 # Drop on the final dataset
 data_today3 <- data_today2[,c(1:320)]
@@ -77,6 +77,21 @@ columns_to_drop = c("SubmissionDate","metadata_note_introduction","note1","Main.
 final_data1 <- data_today3%>%select(-columns_to_drop)
 print(ncol(data_today3) - ncol(final_data1))
 print(length(columns_to_drop))
+
+# WORKING ON A FUNCTION TO HANDLE RENAMING
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -93,18 +108,24 @@ table(final_data1$consent_given)
 
 dataA = final_data1[,c(1:10)]
 dataB = base_data[,c(1:10)]
-dataC = rbind(dataB, dataA)
+colnames(dataA)<-colnames(dataB)
 
 i=2
-if(class(final_data1[,i])==class(base_data[,i])){
+
+if(class(dataA[,i])==class(dataB[,i])){
   print("good")
 }else{
-if(class(base_data[,i])=="character"){
-as.character(final_data1[,i])
-}else if(class(final_data1[,i])=="integer"){
-as.integer(final_data1[,i])
+if(class(dataB[,i])=="character"){
+  print("RESET to Character")
+}else if(class(dataB[,i])=="integer"){
+  print("RESET to integer")
+}else if(class(dataB[,i])=="numeric"){
+  print("RESET to numeric")
+}else if(class(dataB[,i])=="factor"){
+  class(dataA[,i])<-class(dataB[,i])
+  levels(dataA[,i]) <- levels(dataB[,i])
 }else{
-factor(final_data1[,i])
+print("No changes")
 }
   
 }
