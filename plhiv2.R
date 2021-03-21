@@ -102,8 +102,8 @@ data_labeler <- function(final_start, final_end, base_start,base_end){
         print("RESET to numeric")
       }else if(class(dataB[,c(i)])=="factor"){
         print(i)
-        class(dataA[,c(i)])<-factor(dataB[,c(i)])
-        levels(dataA[,c(i)]) <- levels(dataB[,c(i)])
+        class(dataA[,i]) <- class(dataB[,i])
+        levels(dataA[,i]) <- levels(dataB[,i])
         
       }else{
         print("No changes")
@@ -115,7 +115,7 @@ data_labeler <- function(final_start, final_end, base_start,base_end){
   return(dataA)
 }
 
-dataA_01 <-data_labeler(final_start=1, final_end=100, base_start=1,base_end=100)
+dataA_01 <-data_labeler(final_start=1, final_end=5, base_start=1,base_end=5)
   
 
 
