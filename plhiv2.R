@@ -165,5 +165,12 @@ print(ncol(final_survey_data))
 # Add variable labels
 
 
+library(sqldf)
+work6 = final_survey_data%>%select(interviewer_id,selected_region,selected_county)
+worked = sqldf("SELECT selected_region, interviewer_id, count(*) 
+      FROM work6
+      GROUP BY selected_region, interviewer_id")
+
+
 
 
