@@ -60,7 +60,6 @@ data_today2 = data_today %>% filter(today2 >= '2021-03-08')
 
 # Read spss data
 library(foreign)
-library(spss)
 base_data1 <- read.spss("data/data.sav", use.value.labels = T, to.data.frame = T)
 #columns_to_dropB = c()
 #base_data <- base_data1%>%select(-columns_to_dropB)
@@ -152,8 +151,121 @@ print(ncol(final_survey_data))
 
 
 # Working on levels for counties 47
+county_vals=c('26',
+  '36',
+  '29',
+  '2',
+  '34',
+  '37',
+  '23',
+  '15',
+  '22',
+  '47h',
+  '47f',
+  '28',
+  '47b',
+  '25',
+  '10',
+  '12',
+  '31',
+  '19',
+  '42',
+  '3',
+  '30',
+  '20',
+  '47a',
+  '4',
+  '11',
+  '43',
+  '7',
+  '47g',
+  '41',
+  '38',
+  '18',
+  '45',
+  '47d',
+  '8',
+  '9',
+  '1',
+  '27',
+  '47c',
+  '5',
+  '47e',
+  '21',
+  '39',
+  '33',
+  '6',
+  '46',
+  '13',
+  '40',
+  '44',
+  '32',
+  '16',
+  '14',
+  '17',
+  '24',
+  '35')
 
+county_labs = c('Trans-Nzoia',
+                 'Bomet',
+                 'Nandi',
+                 'Kwale',
+                 'Kajiado',
+                 'Kakamega',
+                 'Turkana',
+                 'Kitui',
+                 'Kiambu',
+                 'Starehe',
+                 'Makadara',
+                 'Elgeyo-Marakwet',
+                 'Westlands',
+                 'Samburu',
+                 'Marsabit',
+                 'Meru',
+                 'Laikipia',
+                 'Nyeri',
+                 'Kisumu',
+                 'Kilifi',
+                 'Baringo',
+                 'Kirinyaga',
+                 'Embakasi',
+                 'Tana River',
+                 'Isiolo',
+                 'Homa Bay',
+                 'Garissa',
+                 'Kamkunji',
+                 'Siaya',
+                 'Vihiga',
+                 'Nyandarua',
+                 'Kisii',
+                 'Langata',
+                 'Wajir',
+                 'Mandera',
+                 'Mombasa',
+                 'Uasin Gishu',
+                 'Dagoretti',
+                 'Lamu',
+                 'Kasarani',
+                 'Muranga',
+                 'Bungoma',
+                 'Narok',
+                 'Taita–Taveta',
+                 'Nyamira',
+                 'Tharaka-Nithi',
+                 'Busia',
+                 'Migori',
+                 'Nakuru',
+                 'Machakos',
+                 'Embu',
+                 'Makueni',
+                 'West Pokot',
+                 'Kericho')
 
+final_survey_data$selected_county <- factor(final_survey_data$selected_county,
+                   levels = county_vals,
+                   labels = county_labs) 
+
+county_by_data = data.frame(table(final_survey_data$selected_county))
 
 # Change venue_code to networks
 
@@ -166,11 +278,15 @@ print(ncol(final_survey_data))
 
 
 library(sqldf)
-work6 = final_survey_data%>%select(interviewer_id,selected_region,selected_county)
-worked = sqldf("SELECT selected_region, interviewer_id, count(*) 
-      FROM work6
-      GROUP BY selected_region, interviewer_id")
+work1 = final_survey_data%>%select(interviewer_id,selected_region,selected_county)
+work1$interviewer_id = as.integer(work1$interviewer_id)
+worked = sqldf("SELECT  selected_region, selected_county,interviewer_id, count(*) 
+      FROM work1
+      GROUP BY selected_region, selected_county, interviewer_id
+      ORDER BY selected_region")
+colnames(worked)<-c("Region","County","Interviewer ID","Completed Surveys")
 
+write.csv(worked, "RAs_Data.csv")
 
 
 
