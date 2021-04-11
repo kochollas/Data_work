@@ -268,10 +268,31 @@ final_survey_data$selected_county <- factor(final_survey_data$selected_county,
 county_by_data = data.frame(table(final_survey_data$selected_county))
 
 # Change venue_code to networks
-
+colnames(final_survey_data)[5] <- c("network")
 
 
 # Splitting multiple response columns
+
+N = nrow(final_survey_data)
+row_count = 1
+while (row_count <= N) {
+  if(row_count > 1900){
+    print(final_survey_data[row_count,c('referal_followup_3')])
+  } 
+  row_count = row_count+1
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Add variable labels
