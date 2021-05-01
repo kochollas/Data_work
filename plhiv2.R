@@ -270,7 +270,7 @@ county_by_data = data.frame(table(final_survey_data$selected_county))
 # Change venue_code to networks
 colnames(final_survey_data)[5] <- c("network")
 
-
+write.table(final_survey_data, "final_survey_data.csv")
 # Splitting multiple response columns
 
 N = nrow(final_survey_data)
@@ -299,15 +299,15 @@ while (row_count <= N) {
 
 
 library(sqldf)
-work1 = final_survey_data%>%select(interviewer_id,selected_region,selected_county)
+work1 = final_survey_data%>%select(interviewer_id,selected_region,selected_county,secA_q2,secA_q13,secA_q6, secA_q4,secA_q1)
 work1$interviewer_id = as.integer(work1$interviewer_id)
-worked = sqldf("SELECT  selected_region, selected_county,interviewer_id, count(*) 
+worked3 = sqldf("SELECT  selected_region,sum(secA_q1)/count(secA_q1), min(secA_q1), max(secA_q1)
       FROM work1
-      GROUP BY selected_region, selected_county, interviewer_id
+      GROUP BY selected_region 
       ORDER BY selected_region")
 colnames(worked)<-c("Region","County","Interviewer ID","Completed Surveys")
 
-write.csv(worked, "RAs_Data.csv")
+write.csv(worked3, "RAs_Data3.csv")
 
 
 
