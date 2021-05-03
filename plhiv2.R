@@ -265,10 +265,11 @@ final_survey_data$selected_county <- factor(final_survey_data$selected_county,
                    levels = county_vals,
                    labels = county_labs) 
 
-county_by_data = data.frame(table(final_survey_data$selected_county))
 
 # Change venue_code to networks
 colnames(final_survey_data)[5] <- c("network")
+
+final_survey_data = final_survey_data %>% filter(consent_given == 'Yes')
 
 write.table(final_survey_data, "final_survey_data.csv")
 # Splitting multiple response columns
