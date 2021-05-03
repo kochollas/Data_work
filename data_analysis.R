@@ -56,8 +56,9 @@ Batch <- function(dataB){
   }
 
 Batch(dataB)
-
+setwd("~/Documents/upwork/Georges")
 write.csv(final_survey_data, "finalsurvey.csv")
+final_survey_data <-read.csv("finalsurvey.csv")
 
 #---------- Batch cross tabulation-------------------------------
 
@@ -142,6 +143,7 @@ generate_dummy_tabs <- function(df){
 z <- generate_dummy_tabs(var1)
 
 
+write.table(z, "myDF3.csv", sep = ",", col.names = !file.exists("myDF3.csv"), append = T)
 
 
 
