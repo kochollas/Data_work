@@ -31,8 +31,12 @@ var1 = freq_gen(final_survey_data,"secA_q10","secA_q2")
 var1 = freq_gen(final_survey_data,"secA_q11","secA_q2")
 #Table 6
 var1 = freq_gen(final_survey_data,"secA_q12g","secA_q2")  #a-g
+# Table 7
+var1 = freq_gen(final_survey_data,"secB_q14j_sp","secA_q2") 
 
 
+
+# Table 9
+var1 = freq_gen(final_survey_data,"secB_q15e","secA_q2") 
 z <- generate_dummy_tabs(var1)
-
 write.table(z, "myDF3.csv", sep = ",", col.names = !file.exists("myDF3.csv"), append = T)
