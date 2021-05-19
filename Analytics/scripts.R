@@ -117,13 +117,56 @@ var1 = freq_gen(final_survey_data,"Q_75g","secA_q2") #a-g
 z <- generate_dummy_tabs(var1)
 write.table(z, "myDF3.csv", sep = ",", col.names = !file.exists("myDF3.csv"), append = T)
 
+# Table 33
+var1 = freq_gen(final_survey_data,"Q4_recode","secA_q2") #a-g
+
+# Table 34
+var1 = freq_gen(final_survey_data,"secA_q5","secA_q2") #a-g
+
+# Table 35
+var1 = freq_gen(final_survey_data,"Q7_recode","secA_q2") #a-g
+
+# Table 36
+var1 = freq_gen(final_survey_data,"q_36g","secA_q2") #a-g
+z <- generate_dummy_tabs(var1)
+write.table(z, "myDF3.csv", sep = ",", col.names = !file.exists("myDF3.csv"), append = T)
+
+
+
+
+
+
+
 
 # Recoding for how long you have know your HIV status
 
-final_survey_data$Q4_recode <- ifelse(final_survey_data$secA_q4 == 0, 'Less than 1 year',
-                                      ifelse(final_survey_data$secA_q4 >= 1 & final_survey_data$secA_q4 <= 3,'1-3 years',
-                                             ifelse(final_survey_data$secA_q4 >= 4 & final_survey_data$secA_q4 <= 6,'4-6 years',
-                                                    ifelse(final_survey_data$secA_q4 >= 7 & final_survey_data$secA_q4 <= 9,'7-9 years',
-                                                           ifelse(final_survey_data$secA_q4 >= 10 & final_survey_data$secA_q4 <= 98,'Above 10 years','Cant remember')))))
+final_survey_data$Q4_recode <- ifelse(final_survey_data$secA_q4 == 0, '1',
+                                      ifelse(final_survey_data$secA_q4 >= 1 & final_survey_data$secA_q4 <= 3,'2',
+                                             ifelse(final_survey_data$secA_q4 >= 4 & final_survey_data$secA_q4 <= 6,'3',
+                                                    ifelse(final_survey_data$secA_q4 >= 7 & final_survey_data$secA_q4 <= 9,'4',
+                                                           ifelse(final_survey_data$secA_q4 >= 10 & final_survey_data$secA_q4 <= 98,'5','6')))))
+
+q4codes <-c('1','2','3','4','5','6')
+q4level <- c('Less than 1 year','1-3 years','4-6 years','7-9 years','Above 10 years','Cant remember')
+final_survey_data$Q4_recode <- factor(final_survey_data$Q4_recode,
+                                            levels = q4codes,
+                                            labels = q4level) 
+
+# know your HIV status additional tables
+
+
+
+# Recoding for number of children in a household
+
+final_survey_data$Q7_recode <- ifelse(final_survey_data$secA_q7 == 0, '1',
+                                      ifelse(final_survey_data$secA_q7 >= 1 & final_survey_data$secA_q7 <= 3,'2',
+                                             ifelse(final_survey_data$secA_q7 >= 4 & final_survey_data$secA_q7 <= 6,'3',
+                                                    ifelse(final_survey_data$secA_q7 >= 7 & final_survey_data$secA_q7 <= 9,'4','5'))))
+
+q7codes <-c('1','2','3','4','5')
+q7level <- c('None','1-3 children','4-6 children','7-9 children','More than 10 children')
+final_survey_data$Q7_recode <- factor(final_survey_data$Q7_recode,
+                                      levels = q7codes,
+                                      labels = q7level) 
 
 
