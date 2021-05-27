@@ -265,13 +265,21 @@ final_survey_data$selected_county <- factor(final_survey_data$selected_county,
                    levels = county_vals,
                    labels = county_labs) 
 
-
-# Change venue_code to networks
 colnames(final_survey_data)[5] <- c("network")
 
 final_survey_data = final_survey_data %>% filter(consent_given == 'Yes')
 
-write.table(final_survey_data, "final_survey_data.csv")
+# Change venue_code to networks
+colnames(final_survey_data)[5] <- c("network")
+print(ncol(final_survey_data))
+print(ncol(base_data))
+
+
+#Data Export Section
+library(foreign)
+write.dta(final_survey_data, "c:/mydata.dta") 
+write.csv(final_survey_data, "final_plhiv.csv")
+final_survey_data <- read.csv("final_plhiv.csv")
 # Splitting multiple response columns
 
 N = nrow(final_survey_data)
@@ -285,30 +293,19 @@ while (row_count <= N) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 # Add variable labels
 
 
 library(sqldf)
-work1 = final_survey_data%>%select(interviewer_id,selected_region,selected_county,secA_q2,secA_q13,secA_q6, secA_q4,secA_q1)
+work1 = final_survey_data%>%select(interviewer_id,selected_region,selected_county)
 work1$interviewer_id = as.integer(work1$interviewer_id)
-worked3 = sqldf("SELECT  selected_region,sum(secA_q1)/count(secA_q1), min(secA_q1), max(secA_q1)
+worked = sqldf("SELECT  selected_region, selected_county,interviewer_id, count(*) 
       FROM work1
-      GROUP BY selected_region 
+      GROUP BY selected_region, selected_county, interviewer_id
       ORDER BY selected_region")
 colnames(worked)<-c("Region","County","Interviewer ID","Completed Surveys")
 
-write.csv(worked3, "RAs_Data3.csv")
+write.csv(worked, "RAs_Data.csv")
 
-
+maleSP = data.frame(table(final_survey_data$Q56))
 

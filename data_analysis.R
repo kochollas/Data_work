@@ -107,6 +107,7 @@ freq_gen <- function(data,colname,colname2){
   var$Var1Percentage <- round(var$Freq/var$Var1_total*100,2)
   var$grandtotal <- sum(var$Freq)
   var %>% arrange(Var1,Var2)
+  #2125
   rowstot <-2125
   df <- var %>% select(Var1,Var2,Freq,Var1_total,Var1Percentage, Var2_total,Var2Percentage,grandtotal,Total_percentage)
   df$result <- paste(df$Freq,"(",df$Var2Percentage,")",sep = "") 
